@@ -12,26 +12,26 @@ object NumberBank {
     )
 
     private val names = listOf(
-        Names("One", "एक", "ఒకటి", "ஒன்று"),
-        Names("Two", "दो", "రెండు", "இரண்டு"),
-        Names("Three", "तीन", "మూడు", "மூன்று"),
-        Names("Four", "चार", "నాలుగు", "நான்கு"),
-        Names("Five", "पांच", "అయిదు", "ஐந்து"),
-        Names("Six", "छह", "\u0C06\u0C30\u0C41", "\u0B86\u0BB1\u0BC1"),
-        Names("Seven", "सात", "\u0C0E\u0C26\u0C41", "\u0B8F\u0BB4\u0BC1"),
-        Names("Eight", "आठ", "\u0C0E\u0C28\u0C3F\u0C02\u0C26\u0C3F", "\u0B8E\u0B9F\u0BCD\u0B9F\u0BC1"),
-        Names("Nine", "नौ", "\u0C24\u0C4B\u0C2E\u0C4D\u0C2E\u0C3F\u0C26\u0C3F", "\u0B92\u0BA9\u0BCD\u0BAA\u0BA4\u0BC1"),
-        Names("Ten", "दस", "\u0C2A\u0C26\u0C3F", "\u0BAA\u0BA4\u0BCD\u0BA4\u0BC1"),
-        Names("Eleven", "ग्यारह", "\u0C2A\u0C26\u0C15\u0C3F\u0C28\u0C41\u0C26\u0C41", "\u0BAA\u0BA4\u0BBF\u0BA9\u0BCA\u0BA9\u0BCD\u0BB1\u0BC1"),
-        Names("Twelve", "बारह", "\u0C2A\u0C28\u0C4D\u0C28\u0C21\u0C41", "\u0BAA\u0BA9\u0BCD\u0BA9\u0BBF\u0BB0\u0BA3\u0BCD\u0B9F\u0BC1"),
-        Names("Thirteen", "तेरह", "\u0C2A\u0C26\u0C2E\u0C41\u0C21\u0C41", "\u0BAA\u0BA4\u0BBF\u0BAE\u0BC2\u0BA9\u0BCD\u0BB1\u0BC1"),
-        Names("Fourteen", "चौदह", "\u0C2A\u0C26\u0C28\u0C3E\u0C32\u0C41\u0C17\u0C41", "\u0BAA\u0BA4\u0BBF\u0BA9\u0BBE\u0BA9\u0BCD\u0B95\u0BC1"),
-        Names("Fifteen", "पंद्रह", "\u0C2A\u0C26\u0C39\u0C3F\u0C28\u0C41", "\u0BAA\u0BA4\u0BBF\u0BA8\u0BC8\u0BA8\u0BCD\u0BA4\u0BC1"),
-        Names("Sixteen", "सोलह", "\u0C2A\u0C26\u0C3F\u0C28\u0C3E\u0C30\u0C41", "\u0BAA\u0BA4\u0BBF\u0BA8\u0BBE\u0B9F\u0BC1"),
-        Names("Seventeen", "सत्रह", "\u0C2A\u0C26\u0C3F\u0C28\u0C46\u0C26\u0C41", "\u0BAA\u0BA4\u0BBF\u0BA8\u0BC7\u0B9F\u0BC1"),
-        Names("Eighteen", "अठारह", "\u0C2A\u0C26\u0C3F\u0C28\u0C46\u0C28\u0C3F\u0C02\u0C26\u0C3F", "\u0BAA\u0BA4\u0BBF\u0BA8\u0BC6\u0B9F\u0BCD\u0B9F\u0BC1"),
-        Names("Nineteen", "उन्नीस", "\u0C2A\u0C26\u0C39\u0C46\u0C28\u0C4D\u0C2A\u0C26\u0C3F", "\u0BAA\u0BA4\u0BCD\u0BA4\u0BC6\u0BA9\u0BCD\u0BAA\u0BA4\u0BC1"),
-        Names("Twenty", "बीस", "\u0C08\u0C30\u0C35\u0C48", "\u0B87\u0BB0\u0BC1\u0BAA\u0BCD\u0BAA\u0BA4\u0BC1")
+        Names("One", "एक", "ఒకటి", "ஒன்று", "ಒಂದು", "ഒന്ന്"),
+        Names("Two", "दो", "రెండు", "இரண்டு", "ಎರಡು", "രണ്ട്"),
+        Names("Three", "तीन", "మూడు", "மூன்று", "ಮೂರು", "മൂന്ന്"),
+        Names("Four", "चार", "నాలుగు", "நான்கு", "ನಾಲ್ಕು", "നാല്"),
+        Names("Five", "पांच", "అయిదు", "ஐந்து", "ಐದು", "അഞ്ച്"),
+        Names("Six", "छह", "ఆరు", "ஆறு", "ಆರು", "ആറ്"),
+        Names("Seven", "सात", "ఏడు", "ஏழு", "ಏಳು", "ഏഴ്"),
+        Names("Eight", "आठ", "ఎనిమిది", "எட்டு", "ಎಂಟು", "എട്ട്"),
+        Names("Nine", "नौ", "తొమ్మిది", "ஒன்பது", "ಒಂಬತ್ತು", "ഒമ്പത്"),
+        Names("Ten", "दस", "పది", "பத்து", "ಹತ್ತು", "പത്ത്"),
+        Names("Eleven", "ग्यारह", "పదకొండు", "பதினொன்று", "ಹನ್ನೊಂದು", "പതിനൊന്ന്"),
+        Names("Twelve", "बारह", "పన్నెండు", "பன்னிரண்டு", "ಹನ್ನೆರಡು", "പന്ത്രണ്ട്"),
+        Names("Thirteen", "तेरह", "పదమూడు", "பதிமூன்று", "ಹದಿಮೂರು", "പതിമൂന്ന്"),
+        Names("Fourteen", "चौदह", "పద్నాలుగు", "பதினான்கு", "ಹದಿನಾಲ್ಕು", "പതിനാല്"),
+        Names("Fifteen", "पंद्रह", "పదిహేను", "பதினைந்து", "ಹದಿನೈದು", "പതിനഞ്ച്"),
+        Names("Sixteen", "सोलह", "పదహారు", "பதினாறு", "ಹದಿನಾರು", "പതിനാറ്"),
+        Names("Seventeen", "सत्रह", "పదిహేడు", "பதினேழு", "ಹದಿನೇಳು", "പതിനേഴ്"),
+        Names("Eighteen", "अठारह", "పద్దెనిమిది", "பதினெட்டு", "ಹದಿನೆಂಟು", "പതിനെട്ട്"),
+        Names("Nineteen", "उन्नीस", "పందొమ్మిది", "பத்தொன்பது", "ಹತ್ತೊಂಬತ್ತು", "പത്തൊമ്പത്"),
+        Names("Twenty", "बीस", "ఇరవై", "இருபது", "ಇಪ್ಪತ್ತು", "ഇരുപത്")
     )
 
     val all: List<NumberEntry> = (1..20).map { n ->
@@ -42,6 +42,8 @@ object NumberBank {
             hindiName = name.hindi,
             teluguName = name.telugu,
             tamilName = name.tamil,
+            kannadaName = name.kannada,
+            malayalamName = name.malayalam,
             dotColorArgb = colors[(n - 1) % colors.size],
             countDistractors = listOf(
                 (n - 2).coerceAtLeast(1),
@@ -62,6 +64,8 @@ object NumberBank {
         val english: String,
         val hindi: String,
         val telugu: String,
-        val tamil: String
+        val tamil: String,
+        val kannada: String,
+        val malayalam: String
     )
 }

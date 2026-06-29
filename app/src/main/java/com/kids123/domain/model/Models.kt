@@ -52,7 +52,9 @@ enum class LearningLanguage(val displayName: String) {
     ENGLISH("English"),
     HINDI("हिंदी"),
     TELUGU("తెలుగు"),
-    TAMIL("தமிழ்")
+    TAMIL("தமிழ்"),
+    KANNADA("ಕನ್ನಡ"),
+    MALAYALAM("മലയാളം")
 }
 
 enum class NumberQuizType { COUNT, BIGGER }
@@ -102,6 +104,8 @@ data class NumberEntry(
     val hindiName: String,
     val teluguName: String,
     val tamilName: String,
+    val kannadaName: String,
+    val malayalamName: String,
     val dotColorArgb: Long,
     val countDistractors: List<Int>,
     val biggerDistractors: List<Int>
@@ -111,6 +115,8 @@ data class NumberEntry(
         LearningLanguage.HINDI -> hindiName
         LearningLanguage.TELUGU -> teluguName
         LearningLanguage.TAMIL -> tamilName
+        LearningLanguage.KANNADA -> kannadaName
+        LearningLanguage.MALAYALAM -> malayalamName
     }
 
     fun secondaryName(language: LearningLanguage): String = when (language) {

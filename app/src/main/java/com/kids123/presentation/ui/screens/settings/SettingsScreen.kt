@@ -185,7 +185,7 @@ fun SettingsScreen(
             title = { Text(stringResource(R.string.lesson_language)) },
             text = {
                 Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                    LearningLanguage.entries.chunked(2).forEach { row ->
+                    LearningLanguage.entries.chunked(3).forEach { row ->
                         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                             row.forEach { lang ->
                                 FilterChip(
