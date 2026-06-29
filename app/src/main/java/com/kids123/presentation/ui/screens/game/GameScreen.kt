@@ -53,6 +53,7 @@ fun GameScreen(
     adManager: AdManager,
     adsEnabled: Boolean = true,
     reducedMotion: Boolean = false,
+    learningLanguage: com.kids123.domain.model.LearningLanguage = com.kids123.domain.model.LearningLanguage.ENGLISH,
     viewModel: GameViewModel = hiltViewModel()
 ) {
     val game by viewModel.game.collectAsStateWithLifecycle()
@@ -449,6 +450,7 @@ fun GameScreen(
                 } else {
                     Kids123Board(
                         game = g,
+                        learningLanguage = learningLanguage,
                         reducedMotion = reducedMotion,
                         onNextStep = viewModel::onNextStep,
                         onQuizAnswer = viewModel::onQuizAnswer,

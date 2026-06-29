@@ -15,6 +15,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kids123.R
 import com.kids123.domain.model.AppTheme
 import com.kids123.domain.model.ColorBlindMode
+import com.kids123.domain.model.LearningLanguage
 import com.kids123.presentation.ui.util.languageDisplayName
 import com.kids123.presentation.ui.util.localizedName
 import com.kids123.presentation.viewmodel.SettingsViewModel
@@ -31,6 +32,7 @@ fun SettingsScreen(
     val economy by viewModel.economy.collectAsStateWithLifecycle()
     var showThemeDialog by remember { mutableStateOf(false) }
     var showLanguageDialog by remember { mutableStateOf(false) }
+    var showLessonLanguageDialog by remember { mutableStateOf(false) }
 
     Scaffold(
         topBar = {
@@ -82,6 +84,19 @@ fun SettingsScreen(
                         languageDisplayName(prefs.language),
                         style = MaterialTheme.typography.bodySmall
                     )
+                }
+            }
+
+            Text(stringResource(R.string.for_parents), style = MaterialTheme.typography.titleMedium)
+            Text(
+                stringResource(R.string.for_parents_hint),
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+            TextButton(onClick = { showLessonLanguageDialog = true }, modifier = Modifier.fillMaxWidth()) {
+                Column {
+                    Text(stringResource(R.string.lesson_language))
+                    Text(prefs.learningLanguage.displayName, style = MaterialTheme.typography.bodySmall)
                 }
             }
 
@@ -158,6 +173,36 @@ fun SettingsScreen(
             },
             confirmButton = {
                 TextButton(onClick = { showLanguageDialog = false }) {
+                    Text(stringResource(R.string.close))
+                }
+            }
+        )
+    }
+
+    if (showLessonLanguageDialog) {
+        AlertDialog(
+            onDismissRequest = { showLessonLanguageDialog = false },
+            title = { Text(stringResource(R.string.lesson_language)) },
+            text = {
+                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    LearningLanguage.entries.chunked(2).forEach { row ->
+                        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                            row.forEach { lang ->
+                                FilterChip(
+                                    selected = prefs.learningLanguage == lang,
+                                    onClick = {
+                                        viewModel.setLearningLanguage(lang)
+                                        showLessonLanguageDialog = false
+                                    },
+                                    label = { Text(lang.displayName) }
+                                )
+                            }
+                        }
+                    }
+                }
+            },
+            confirmButton = {
+                TextButton(onClick = { showLessonLanguageDialog = false }) {
                     Text(stringResource(R.string.close))
                 }
             }

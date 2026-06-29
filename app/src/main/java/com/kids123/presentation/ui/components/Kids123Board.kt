@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.kids123.R
 import com.kids123.domain.model.Kids123Game
+import com.kids123.domain.model.LearningLanguage
 import com.kids123.domain.model.LearningStepMode
 import com.kids123.domain.model.NumberQuizType
 import kotlin.math.ceil
@@ -41,6 +42,7 @@ private val cardColors = listOf(
 @Composable
 fun Kids123Board(
     game: Kids123Game,
+    learningLanguage: LearningLanguage,
     reducedMotion: Boolean,
     onNextStep: () -> Unit,
     onQuizAnswer: (Int) -> Unit,
@@ -62,7 +64,7 @@ fun Kids123Board(
         )
         Text(stringResource(R.string.step_progress, game.currentStepIndex + 1, game.level.stepCount))
         when (step) {
-            LearningStepMode.LEARN -> LearnStep(game, cardColor)
+            LearningStepMode.LEARN -> LearnStep(game, cardColor, learningLanguage)
             LearningStepMode.TRACE -> TraceStep(game, cardColor, onTracePoint, onCompleteTrace)
             LearningStepMode.QUIZ -> QuizStep(game, cardColor, onQuizAnswer)
         }
@@ -81,7 +83,8 @@ fun Kids123Board(
 }
 
 @Composable
-private fun LearnStep(game: Kids123Game, cardColor: Color) {
+private fun LearnStep(game: Kids123Game, cardColor: Color, learningLanguage: LearningLanguage) {
+    val entry = game.level.entry
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(24.dp),
@@ -97,6 +100,18 @@ private fun LearnStep(game: Kids123Game, cardColor: Color) {
                 fontSize = 120.sp,
                 fontWeight = FontWeight.Bold,
                 color = cardColor
+            )
+            Text(
+                entry.nameFor(learningLanguage),
+                fontSize = 36.sp,
+                fontWeight = FontWeight.SemiBold,
+                textAlign = TextAlign.Center
+            )
+            Text(
+                entry.secondaryName(learningLanguage),
+                fontSize = 24.sp,
+                textAlign = TextAlign.Center,
+                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.65f)
             )
             DotGrid(count = game.level.dotCount, color = cardColor, modifier = Modifier.fillMaxWidth())
         }

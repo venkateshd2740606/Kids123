@@ -104,6 +104,10 @@
     <string name="language">Language</string>
     <string name="app_language">App Language</string>
     <string name="language_system">System Default</string>
+    <string name="for_parents">For Parents</string>
+    <string name="for_parents_hint">Choose the language used for letters, numbers, and rhymes in lessons.</string>
+    <string name="lesson_language">Lesson language</string>
+    <string name="parent_gate_title">Parents only</string>
 
     <!-- Challenges -->
     <string name="challenge_difficulty">Difficulty: %s</string>

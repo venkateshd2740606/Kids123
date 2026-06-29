@@ -48,6 +48,13 @@ enum class P2PSessionState {
 
 enum class LearningStepMode { LEARN, TRACE, QUIZ }
 
+enum class LearningLanguage(val displayName: String) {
+    ENGLISH("English"),
+    HINDI("हिंदी"),
+    TELUGU("తెలుగు"),
+    TAMIL("தமிழ்")
+}
+
 enum class NumberQuizType { COUNT, BIGGER }
 
 enum class PuzzleArchetype(val title: String, val description: String) {
@@ -91,10 +98,26 @@ data class TracePoint(val x: Float, val y: Float)
 
 data class NumberEntry(
     val number: Int,
+    val englishName: String,
+    val hindiName: String,
+    val teluguName: String,
+    val tamilName: String,
     val dotColorArgb: Long,
     val countDistractors: List<Int>,
     val biggerDistractors: List<Int>
-)
+) {
+    fun nameFor(language: LearningLanguage): String = when (language) {
+        LearningLanguage.ENGLISH -> englishName
+        LearningLanguage.HINDI -> hindiName
+        LearningLanguage.TELUGU -> teluguName
+        LearningLanguage.TAMIL -> tamilName
+    }
+
+    fun secondaryName(language: LearningLanguage): String = when (language) {
+        LearningLanguage.ENGLISH -> hindiName
+        else -> englishName
+    }
+}
 
 data class Kids123Level(
     val id: Long = 0,
@@ -191,6 +214,7 @@ data class UserPreferences(
     val onboardingCompleted: Boolean = false, val consentGiven: Boolean = false,
     val analyticsEnabled: Boolean = true, val personalizedAds: Boolean = false,
     val language: String = "system",
+    val learningLanguage: LearningLanguage = LearningLanguage.ENGLISH,
     val unlockedThemes: Set<String> = setOf(AppTheme.SYSTEM.name, AppTheme.LIGHT.name, AppTheme.DARK.name)
 )
 

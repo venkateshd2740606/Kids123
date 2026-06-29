@@ -13,6 +13,7 @@ import androidx.datastore.preferences.preferencesDataStore
 import com.kids123.domain.model.AppTheme
 import com.kids123.domain.model.ColorBlindMode
 import com.kids123.domain.model.Difficulty
+import com.kids123.domain.model.LearningLanguage
 import com.kids123.domain.model.UserPreferences
 import com.kids123.util.LocaleHelper
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -43,6 +44,7 @@ class PreferencesDataStore @Inject constructor(
         val ANALYTICS = booleanPreferencesKey("analytics")
         val PERSONALIZED_ADS = booleanPreferencesKey("personalized_ads")
         val LANGUAGE = stringPreferencesKey("language")
+        val LEARNING_LANGUAGE = stringPreferencesKey("learning_language")
         val UNLOCKED_THEMES = stringSetPreferencesKey("unlocked_themes")
     }
 
@@ -65,6 +67,9 @@ class PreferencesDataStore @Inject constructor(
             analyticsEnabled = prefs[Keys.ANALYTICS] ?: true,
             personalizedAds = prefs[Keys.PERSONALIZED_ADS] ?: false,
             language = prefs[Keys.LANGUAGE] ?: "system",
+            learningLanguage = runCatching {
+                LearningLanguage.valueOf(prefs[Keys.LEARNING_LANGUAGE] ?: LearningLanguage.ENGLISH.name)
+            }.getOrDefault(LearningLanguage.ENGLISH),
             unlockedThemes = prefs[Keys.UNLOCKED_THEMES] ?: setOf(
                 AppTheme.SYSTEM.name, AppTheme.LIGHT.name, AppTheme.DARK.name
             )
@@ -91,6 +96,9 @@ class PreferencesDataStore @Inject constructor(
                 analyticsEnabled = prefs[Keys.ANALYTICS] ?: true,
                 personalizedAds = prefs[Keys.PERSONALIZED_ADS] ?: false,
                 language = prefs[Keys.LANGUAGE] ?: "system",
+                learningLanguage = runCatching {
+                    LearningLanguage.valueOf(prefs[Keys.LEARNING_LANGUAGE] ?: LearningLanguage.ENGLISH.name)
+                }.getOrDefault(LearningLanguage.ENGLISH),
                 unlockedThemes = prefs[Keys.UNLOCKED_THEMES] ?: setOf(
                     AppTheme.SYSTEM.name, AppTheme.LIGHT.name, AppTheme.DARK.name
                 )
@@ -110,6 +118,7 @@ class PreferencesDataStore @Inject constructor(
             prefs[Keys.ANALYTICS] = updated.analyticsEnabled
             prefs[Keys.PERSONALIZED_ADS] = updated.personalizedAds
             prefs[Keys.LANGUAGE] = updated.language
+            prefs[Keys.LEARNING_LANGUAGE] = updated.learningLanguage.name
             prefs[Keys.UNLOCKED_THEMES] = updated.unlockedThemes
             LocaleHelper.persistLanguage(context, updated.language)
         }

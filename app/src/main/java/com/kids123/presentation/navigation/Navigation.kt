@@ -294,7 +294,8 @@ fun Kids123NavHost(
                 onNavigateBack = { navController.navigateUp() },
                 adManager = adManager,
                 adsEnabled = preferences.adsEnabled,
-                reducedMotion = preferences.reducedMotion
+                reducedMotion = preferences.reducedMotion,
+                learningLanguage = preferences.learningLanguage
             )
         }
         composable(Screen.Stats.route) { StatsScreen(onNavigateBack = { navController.navigateUp() }) }

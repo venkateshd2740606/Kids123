@@ -10,6 +10,7 @@ import com.kids123.domain.model.ColorBlindMode
 import com.kids123.domain.model.Difficulty
 import com.kids123.domain.model.EconomyState
 import com.kids123.domain.model.PuzzleProfile
+import com.kids123.domain.model.LearningLanguage
 import com.kids123.domain.model.UserPreferences
 import com.kids123.domain.model.UserStats
 import com.kids123.domain.repository.ChallengeRepository
@@ -57,6 +58,8 @@ class SettingsViewModel @Inject constructor(
             LocaleHelper.applyAppLocale(languageCode)
         }
     }
+
+    fun setLearningLanguage(language: LearningLanguage) = update { it.copy(learningLanguage = language) }
 
     fun unlockTheme(themeId: String) {
         viewModelScope.launch { progressionRepository.unlockTheme(themeId) }
