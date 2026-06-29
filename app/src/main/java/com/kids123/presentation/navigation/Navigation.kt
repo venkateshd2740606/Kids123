@@ -293,7 +293,6 @@ fun Kids123NavHost(
                 timerVisible = preferences.timerVisible,
                 onNavigateBack = { navController.navigateUp() },
                 adManager = adManager,
-                adsEnabled = preferences.adsEnabled,
                 reducedMotion = preferences.reducedMotion,
                 learningLanguage = preferences.learningLanguage
             )

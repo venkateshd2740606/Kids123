@@ -1,4 +1,4 @@
-package com.kids123.presentation.ui.screens.game
+﻿package com.kids123.presentation.ui.screens.game
 
 import android.app.Activity
 import android.content.Intent
@@ -22,14 +22,12 @@ import com.kids123.ads.AdManager
 import com.kids123.domain.model.ChallengeType
 import com.kids123.domain.model.Difficulty
 import com.kids123.engine.Kids123Engine
-import com.kids123.presentation.ui.components.AdBanner
 import com.kids123.presentation.ui.components.GameStatChip
 import com.kids123.presentation.ui.components.Kids123Board
 import com.kids123.presentation.viewmodel.GameLoadError
 import com.kids123.presentation.viewmodel.GameViewModel
 import com.kids123.util.FeedbackHelper
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -51,7 +49,6 @@ fun GameScreen(
     timerVisible: Boolean,
     onNavigateBack: () -> Unit,
     adManager: AdManager,
-    adsEnabled: Boolean = true,
     reducedMotion: Boolean = false,
     learningLanguage: com.kids123.domain.model.LearningLanguage = com.kids123.domain.model.LearningLanguage.ENGLISH,
     viewModel: GameViewModel = hiltViewModel()
@@ -72,32 +69,9 @@ fun GameScreen(
     val hintsRemaining by viewModel.hintsRemaining.collectAsStateWithLifecycle()
     val showNoHintsDialog by viewModel.showNoHintsDialog.collectAsStateWithLifecycle()
     val loadError by viewModel.loadError.collectAsStateWithLifecycle()
-    val rewardedAdReady by adManager.rewardedAdReady.collectAsStateWithLifecycle()
     val context = LocalContext.current
     val activity = context as? Activity
     var paused by remember { mutableStateOf(false) }
-    val snackbarHostState = remember { SnackbarHostState() }
-    val scope = rememberCoroutineScope()
-    val adNotReadyMessage = stringResource(R.string.ad_loading_try_again)
-
-    fun watchAdForHint() {
-        val act = activity ?: return
-        viewModel.dismissNoHintsDialog()
-        adManager.showRewardedAd(
-            activity = act,
-            onRewarded = { count -> viewModel.onHintAdRewarded(count) },
-            onFailed = {
-                adManager.showRewardedInterstitialAd(
-                    activity = act,
-                    onRewarded = { count -> viewModel.onHintAdRewarded(count) },
-                    onFailed = {
-                        viewModel.showNoHintsDialog()
-                        scope.launch { snackbarHostState.showSnackbar(adNotReadyMessage) }
-                    }
-                )
-            }
-        )
-    }
 
     val sessionKey = remember(
         gameId,
@@ -278,33 +252,10 @@ fun GameScreen(
                 )
             },
             title = { Text(stringResource(R.string.no_hints_title)) },
-            text = {
-                Text(
-                    stringResource(
-                        if (adsEnabled && rewardedAdReady) R.string.no_hints_message
-                        else R.string.ad_loading_try_again
-                    )
-                )
-            },
+            text = { Text(stringResource(R.string.no_hints_message)) },
             confirmButton = {
-                if (adsEnabled) {
-                    Button(
-                        onClick = { watchAdForHint() },
-                        enabled = rewardedAdReady
-                    ) {
-                        Text(stringResource(R.string.watch_ad_hints))
-                    }
-                } else {
-                    TextButton(onClick = viewModel::dismissNoHintsDialog) {
-                        Text(stringResource(R.string.ok))
-                    }
-                }
-            },
-            dismissButton = {
-                if (adsEnabled) {
-                    TextButton(onClick = viewModel::dismissNoHintsDialog) {
-                        Text(stringResource(R.string.cancel))
-                    }
+                TextButton(onClick = viewModel::dismissNoHintsDialog) {
+                    Text(stringResource(R.string.ok))
                 }
             }
         )
@@ -314,7 +265,6 @@ fun GameScreen(
     val outOfHints = hintsRemaining <= 0
 
     Scaffold(
-        snackbarHost = { SnackbarHost(snackbarHostState) },
         topBar = {
             TopAppBar(
                 title = {
@@ -360,18 +310,13 @@ fun GameScreen(
                             Icon(
                                 Icons.Default.Lightbulb,
                                 contentDescription = stringResource(R.string.hint),
-                                tint = when {
-                                    !hintAvailable -> MaterialTheme.colorScheme.onSurface.copy(alpha = 0.38f)
-                                    outOfHints && adsEnabled -> MaterialTheme.colorScheme.primary
-                                    else -> LocalContentColor.current
-                                }
+                                tint = if (!hintAvailable) MaterialTheme.colorScheme.onSurface.copy(alpha = 0.38f) else LocalContentColor.current
                             )
                         }
                     }
                 }
             )
-        },
-        bottomBar = { AdBanner(adManager, adsEnabled = adsEnabled) }
+        }
     ) { padding ->
         if (loadError != null) {
             Box(Modifier.fillMaxSize().padding(padding))
@@ -405,42 +350,6 @@ fun GameScreen(
                             stringResource(R.string.hints_remaining, hintsRemaining)
                         )
                         GameStatChip(stringResource(R.string.level_seed), g.level.seed.toString())
-                    }
-                }
-                if (!sameDevice && outOfHints && hintAvailable && adsEnabled) {
-                    ElevatedCard(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 16.dp, vertical = 4.dp),
-                        colors = CardDefaults.elevatedCardColors(
-                            containerColor = MaterialTheme.colorScheme.primaryContainer
-                        )
-                    ) {
-                        Row(
-                            modifier = Modifier.padding(12.dp),
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.spacedBy(12.dp)
-                        ) {
-                            Icon(
-                                Icons.Default.Lightbulb,
-                                contentDescription = null,
-                                tint = MaterialTheme.colorScheme.primary
-                            )
-                            Text(
-                                stringResource(R.string.hints_watch_ad_banner),
-                                modifier = Modifier.weight(1f),
-                                style = MaterialTheme.typography.bodyMedium,
-                                color = MaterialTheme.colorScheme.onPrimaryContainer
-                            )
-                            Button(
-                                onClick = {
-                                    if (rewardedAdReady) watchAdForHint()
-                                    else viewModel.showNoHintsDialog()
-                                }
-                            ) {
-                                Text(stringResource(R.string.watch_ad_hints))
-                            }
-                        }
                     }
                 }
                 if (paused && !isMultiplayer) {
